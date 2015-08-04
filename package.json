@@ -2,10 +2,12 @@
   "name": "markdown-assistant",
   "main": "./lib/main",
   "version": "0.0.3",
-  "description": "A short description of your package",
+  "description": "assistant for markdown writer which can upload image from clipboard",
   "keywords": [
     "makrdown",
-    "image"
+    "image",
+    "upload",
+    "qiniu"
   ],
   "author": {
     "name": "knightli",
