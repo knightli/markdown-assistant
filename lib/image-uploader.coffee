@@ -1,5 +1,4 @@
 qiniu = require "qiniu"
-uuid = require "node-uuid"
 crypto = require "crypto"
 
 module.exports = class imageUploader
