@@ -1,0 +1,24 @@
+{
+  "name": "markdown-assistant",
+  "main": "./lib/main",
+  "version": "0.0.1",
+  "description": "A short description of your package",
+  "keywords": [
+    "makrdown",
+    "image"
+  ],
+  "author": {
+    "name": "knightli",
+    "email": "knightli@foxmail.com",
+    "url": "https://github.com/knightli"
+  },
+  "repository": "https://github.com/knightli/markdown-assistant",
+  "license": "MIT",
+  "engines": {
+    "atom": ">=1.0.0 <2.0.0"
+  },
+  "dependencies": {
+    "atom-space-pen-views": "^2.0.3",
+    "qiniu": "^6.1.8"
+  }
+}
