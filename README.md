@@ -1,22 +1,24 @@
-# markdown-assistant package
-assistant for markdown writer
+# Markdown Assistant
+An assistant for markdown writers.
 
-there is only one feature now:
-- upload image from clipboard
+For now there is only one feature:
+- Upload images from the clipboard automatically.
 
-## upload image from clipboard
+## Upload images from the clipboard
+
 ![upload image](http://7xkrm0.com1.z0.glb.clouddn.com/72b078601683bd35ad459172977a620f.png)
 
 ### Usage
-- take screenshot or copy image to clipboard
-- paste image by cmd + v
-- after a short while for uploading
-- preview uploaded image and maybe set a title for it
-- press enter to insert image
+1. Take a screenshot or copy any image to the clipboard.
+2. Paste it into Atom by `cmd` + `v`.
+3. It's uploading now. Wait for secs.
+4. See preview for the uploaded image and maybe add a title for it.
+5. Press `enter` to insert the image.
 
-### Note
-> ** now it is just support upload to [qiniu](https://portal.qiniu.com/signup?code=3ln7nbck1u15e) bucket**  
+### Notes
 
-> ** you need set `qiniuBucket` `qiniuDomain` `qiniuAK` `qiniuSK` in settings**
+> **For now images are uploaded to [qiniu](https://portal.qiniu.com/signup?code=3ln7nbck1u15e) buckets.**  
+
+> **You need to set `qiniuBucket` `qiniuDomain` `qiniuAK` `qiniuSK` in settings.**
 
 ![settings](http://7xkrm0.com1.z0.glb.clouddn.com/9af1b5d5505f56a120d4c25fe94434af.png)
