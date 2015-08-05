@@ -45,7 +45,7 @@ module.exports =
         ak = atom.config.get('markdown-assistant.qiniuAK')
         sk = atom.config.get('markdown-assistant.qiniuSK')
         bucket = atom.config.get('markdown-assistant.qiniuBucket')
-        domain = atom.config.get('markdown-assistant.qiniuDomain')
+        domain = atom.config.get('markdown-assistant.qiniuDomain')?.trim()
         if (ak && sk && bucket)
           uploadInfo = {
             img: img,

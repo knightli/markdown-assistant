@@ -7,7 +7,9 @@
     "makrdown",
     "image",
     "upload",
-    "qiniu"
+    "qiniu",
+    "assistant",
+    "helper"
   ],
   "author": {
     "name": "knightli",
