@@ -1,2 +1,4 @@
-# 0.1.0 - First Release
-- support upload image to qiniu
+0.0.1 - First Release
+=====================
+
+-	support upload image to qiniu
