@@ -35,30 +35,35 @@ module.exports =
   attachEvent: ->
     workspaceElement = atom.views.getView(atom.workspace)
     workspaceElement.addEventListener 'keydown', (e) =>
-      if (e.metaKey && e.keyCode == 86)
-        clipboard = require('clipboard')
-        img = clipboard.readImage()
-        return if img.isEmpty()
+      editor = atom.workspace.getActiveTextEditor()
+      editor?.observeGrammar (grammar) ->
+        return unless grammar
+        return unless grammar.scopeName is 'source.gfm'
 
-        # insert loading text
-        editor = atom.workspace.getActiveTextEditor()
-        ak = atom.config.get('markdown-assistant.qiniuAK')
-        sk = atom.config.get('markdown-assistant.qiniuSK')
-        bucket = atom.config.get('markdown-assistant.qiniuBucket')
-        domain = atom.config.get('markdown-assistant.qiniuDomain')?.trim()
-        if domain.indexOf 'http' < 0
+        if (e.metaKey && e.keyCode == 86)
+          clipboard = require('clipboard')
+          img = clipboard.readImage()
+          return if img.isEmpty()
+
+          # insert loading text
+          ak = atom.config.get('markdown-assistant.qiniuAK')
+          sk = atom.config.get('markdown-assistant.qiniuSK')
+          bucket = atom.config.get('markdown-assistant.qiniuBucket')
+          domain = atom.config.get('markdown-assistant.qiniuDomain')?.trim()
+          if domain.indexOf('http') < 0
+            console.log domain
             domain = "http://#{domain}"
-        if (ak && sk && bucket)
-          uploadInfo = {
-            img: img,
-            uploader: {
-              ak: ak,
-              sk: sk,
-              bucket: bucket,
-              domain: domain
+          if (ak && sk && bucket)
+            uploadInfo = {
+              img: img,
+              uploader: {
+                ak: ak,
+                sk: sk,
+                bucket: bucket,
+                domain: domain
+              }
             }
-          }
-          insertImageViewInstance = new insertImageViewModule()
-          insertImageViewInstance.display(uploadInfo)
-        else
-          #todo show message guide user go setting
+            insertImageViewInstance = new insertImageViewModule()
+            insertImageViewInstance.display(uploadInfo)
+          else
+            #todo show message guide user go setting
