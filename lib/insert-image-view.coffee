@@ -1,5 +1,4 @@
 {$, View, TextEditorView} = require "atom-space-pen-views"
-imageUploader = require "./image-uploader"
 utils = require "./utils"
 
 module.exports =
@@ -50,22 +49,18 @@ class InsertImageView extends View
     @previouslyFocusedElement?.focus()
     super
 
-  display: (uploadInfo) ->
+  display: (uploadFn) ->
     @panel ?= atom.workspace.addModalPanel(item: this, visible: false)
     @previouslyFocusedElement = $(document.activeElement)
     @editor = atom.workspace.getActiveTextEditor()
     @setFieldsFromSelection()
 
-    if uploadInfo
+    if uploadFn
       @imageInfoLayer.css({"display":"none"})
       @loadingLayer.css({"display":"block"})
-      ak = uploadInfo.uploader.ak
-      sk = uploadInfo.uploader.sk
-      uploaderIns = new imageUploader(uploadInfo.uploader)
 
       setTimeout =>
-        uploaderIns.upload uploadInfo.img, (err, data)=>
-
+        uploadFn (err, data)=>
           @imageInfoLayer.css({"display":"block"})
           @loadingLayer.css({"display":"none"})
 

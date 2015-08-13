@@ -21,3 +21,6 @@
 * Fix Redundant `http://`
 * Only insert image when edit markdown file
 
+## 0.0.8
+* make uploader module as an external plugin
+* add setting: `disableImageUploaderIfNotMarkdown`

@@ -2,31 +2,15 @@ insertImageViewModule = require "./insert-image-view"
 
 module.exports =
   config:
-    suffixes:
-      type: 'array'
-      default: ['markdown', 'md', 'mdown', 'mkd', 'mkdow']
-      items:
-        type: 'string'
-    qiniuAK:
-      title: "qiniuAK"
+    uploader:
+      title: "uploader"
       type: 'string'
-      description: "在七牛后台 “账号设置 - 密钥” 下查看 AK 和 SK 的值"
-      default: ""
-    qiniuSK:
-      title: "qiniuSK"
-      type: 'string'
-      description: "在七牛后台 “账号设置 - 密钥” 下查看 AK 和 SK 的值"
-      default: ""
-    qiniuBucket:
-      title: "qiniuBucket"
-      type: 'string'
-      description: "在七牛后台 “选择一个空间” 下找一个空间名称"
-      default: ""
-    qiniuDomain:
-      title: "qiniuDomain"
-      type: 'string'
-      description: "在七牛后台指定空间下 “空间设置 - 域名设置” 下查看空间绑定的域名"
-      default: ""
+      description: "uploader plugin for upload file"
+      default: "qiniu-uploader"
+    disableImageUploaderIfNotMarkdown:
+      title: "disable image uploader if not markdown"
+      type: "boolean"
+      default: false
 
   activate: (state) ->
     #console.log('markdown assistant activate')
@@ -36,34 +20,47 @@ module.exports =
     workspaceElement = atom.views.getView(atom.workspace)
     workspaceElement.addEventListener 'keydown', (e) =>
       editor = atom.workspace.getActiveTextEditor()
-      editor?.observeGrammar (grammar) ->
-        return unless grammar
-        return unless grammar.scopeName is 'source.gfm'
 
-        if (e.metaKey && e.keyCode == 86)
-          clipboard = require('clipboard')
-          img = clipboard.readImage()
-          return if img.isEmpty()
+      if atom.config.get('markdown-assistant.disableImageUploaderIfNotMarkdown')
+        editor?.observeGrammar (grammar) =>
+          return unless grammar
+          return unless grammar.scopeName is 'source.gfm'
+          @eventHandler e
+      else
+        @eventHandler e
 
-          # insert loading text
-          ak = atom.config.get('markdown-assistant.qiniuAK')
-          sk = atom.config.get('markdown-assistant.qiniuSK')
-          bucket = atom.config.get('markdown-assistant.qiniuBucket')
-          domain = atom.config.get('markdown-assistant.qiniuDomain')?.trim()
-          if domain.indexOf('http') < 0
-            console.log domain
-            domain = "http://#{domain}"
-          if (ak && sk && bucket)
-            uploadInfo = {
-              img: img,
-              uploader: {
-                ak: ak,
-                sk: sk,
-                bucket: bucket,
-                domain: domain
-              }
-            }
-            insertImageViewInstance = new insertImageViewModule()
-            insertImageViewInstance.display(uploadInfo)
-          else
-            #todo show message guide user go setting
+  eventHandler: (e) ->
+    if (e.metaKey && e.keyCode == 86)
+      clipboard = require('clipboard')
+      img = clipboard.readImage()
+      return if img.isEmpty()
+
+      # insert loading text
+      uploaderName = atom.config.get('markdown-assistant.uploader')
+      uploaderPkg = atom.packages.getLoadedPackage(uploaderName)
+
+      if not uploaderPkg
+        atom.notifications.addWarning('markdown-assistant: uploader not found',{
+          detail: "package \"#{uploaderName}\" not found!" +
+            "\nHow to Fix:" +
+            "\ninstall this package OR change uploader in markdown-assistant's settings"
+        })
+        return
+
+      uploader = uploaderPkg?.mainModule
+      if not uploader
+        uploader = require(uploaderPkg.path)
+
+      try
+        uploaderIns = uploader.instance()
+
+        uploadFn = (callback)->
+          uploaderIns.upload(img.toPng(), 'png', callback)
+
+        insertImageViewInstance = new insertImageViewModule()
+        insertImageViewInstance.display(uploadFn)
+      catch e
+        # add uploadName for trace uploader package error in feedback
+        e.message += " [uploaderName=#{uploaderName}]"
+        throw new Error(e)
+
