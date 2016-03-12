@@ -1,7 +1,7 @@
 {
   "name": "markdown-assistant-by-edc",
   "main": "./lib/main",
-  "version": "0.3.0",
+  "version": "0.3.1",
   "description": "assistant for markdown writer which can upload image from clipboard",
   "keywords": [
     "markdown",
