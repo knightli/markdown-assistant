@@ -1,8 +1,9 @@
 # Markdown Assistant
 An assistant for markdown writers.
 
-For now there is only one feature:
+Features:
 - Upload images from the clipboard automatically.
+- Drag and drop images to editor.
 
 ## Upload images from the clipboard
 
