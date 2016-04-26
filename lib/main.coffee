@@ -13,7 +13,7 @@ module.exports =
       default: false
 
   activate: (state) ->
-    #console.log('markdown assistant activate')
+    console.log('markdown assistant activate')
     @attachEvent()
 
   attachEvent: ->
@@ -30,9 +30,14 @@ module.exports =
         @eventHandler e
 
   eventHandler: (e) ->
-    if (e.metaKey && e.keyCode == 86)
+    console.log("metaKey ?" + e.metaKey)
+    console.log("Is key equl 86,which is v? :" + e.keyCode)
+    console.log("crtlKey ? " + e.ctrlKey)
+    if (e.metaKey && e.keyCode == 86 || e.ctrlKey && e.keyCode == 86)
+      console.log("I am going to get clipboard")
       clipboard = require('clipboard')
       img = clipboard.readImage()
+      console.log("Is image empty?" + img.isEmpty())
       return if img.isEmpty()
 
       # insert loading text
@@ -63,4 +68,3 @@ module.exports =
         # add uploadName for trace uploader package error in feedback
         e.message += " [uploaderName=#{uploaderName}]"
         throw new Error(e)
-
