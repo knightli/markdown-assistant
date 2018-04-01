@@ -16,6 +16,13 @@
     "email": "knightli@foxmail.com",
     "url": "https://github.com/knightli"
   },
+  "contributors": [
+    {
+      "name": "Jiajun Chen",
+      "email": "tychenjiajun@live.cn",
+      "url": "https://github.com/tychenjiajun"
+    }
+  ]
   "repository": "https://github.com/knightli/markdown-assistant",
   "license": "MIT",
   "engines": {

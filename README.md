@@ -2,7 +2,7 @@
 An assistant for markdown writers.
 
 For now there is only one feature:
-- Upload images from the clipboard automatically.
+- Upload images or image files from the clipboard automatically.
 
 ## Upload images from the clipboard
 
@@ -29,3 +29,11 @@ How?
 3. It's uploading now. Wait for secs.
 4. See preview for the uploaded image and maybe add a title for it.
 5. Press `enter` to insert the image.
+
+### Uploaders
+
+Now we have the following uploaders
+
+*   [qiniu-uploader](https://github.com/knightli/qiniu-uploader) for qiniu cloud
+*   [qcloud-uploader](https://github.com/tychenjiajun/qcloud-uploader) for tencent qcloud
+*   [oss-uploader](https://github.com/airclear/oss-uploader) for aliyun oss

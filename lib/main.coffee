@@ -1,4 +1,5 @@
 insertImageViewModule = require "./insert-image-view"
+electron = require 'electron'
 
 module.exports =
   config:
@@ -32,7 +33,13 @@ module.exports =
     if (e.metaKey && e.keyCode == 86 || e.ctrlKey && e.keyCode == 86)
       clipboard = require('clipboard')
       img = clipboard.readImage()
-      return if img.isEmpty()
+      if img.isEmpty()
+        potentialFilePath = clipboard.readText()
+        img = electron.nativeImage.createFromPath(potentialFilePath)
+      if img.isEmpty()
+        # TODO: add informations about the image reading error
+        return
+
 
       # insert loading text
       uploaderName = atom.config.get('markdown-assistant.uploader')
