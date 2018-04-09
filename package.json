@@ -20,7 +20,7 @@
     {
       "name": "Jiajun Chen",
       "email": "tychenjiajun@live.cn",
-      "url": "https://github.com/tychenjiajun"
+      "url": "https://deeloves.me/"
     }
   ],
   "repository": "https://github.com/knightli/markdown-assistant",
@@ -30,6 +30,7 @@
   },
   "dependencies": {
     "atom-space-pen-views": "^2.0.3",
-    "qiniu": "^6.1.8"
+    "qiniu": "^6.1.8",
+    "is-gif": "^2.0.0"
   }
 }

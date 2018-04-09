@@ -1,6 +1,7 @@
 insertImageViewModule = require "./insert-image-view"
 electron = require 'electron'
 fs = require 'fs'
+isGif = require 'is-gif'
 
 module.exports =
   config:
@@ -31,6 +32,7 @@ module.exports =
         @eventHandler e
 
   eventHandler: (e) ->
+    e.preventDefault()
     if (e.metaKey && e.keyCode == 86 || e.ctrlKey && e.keyCode == 86)
       clipboard = require('clipboard')
       img = clipboard.readImage()
@@ -40,8 +42,9 @@ module.exports =
         ext = potentialFilePath.split('.').pop().toLowerCase()
         img = electron.nativeImage.createFromPath(potentialFilePath)
       if img.isEmpty()
-        # TODO: add informations about the image reading error
-        return
+        img = fs.readFileSync(potentialFilePath) # read Buffer from file
+        if not isGif(img)
+          return           # normaly return, paste whatever you want
 
       # insert loading text
       uploaderName = atom.config.get('markdown-assistant.uploader')
@@ -63,8 +66,10 @@ module.exports =
         uploaderIns = uploader.instance()
 
         uploadFn = (callback)->
-          if new Set(['jpg', 'jpeg', 'jpe', 'jif', 'jfif', 'jfi']).has(ext)
-            uploaderIns.upload(img.toJPEG(), ext, callback)
+          if img instanceof Buffer
+            uploaderIns.upload(img, 'gif', callback) # only gif can be Buffer now
+          else if new Set(['jpg', 'jpeg', 'jpe', 'jif', 'jfif', 'jfi']).has(ext)
+            uploaderIns.upload(img.toJPEG(100), ext, callback)
           else
             uploaderIns.upload(img.toPNG(), ext, callback)
 
