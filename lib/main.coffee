@@ -42,7 +42,10 @@ module.exports =
         ext = potentialFilePath.split('.').pop().toLowerCase()
         img = electron.nativeImage.createFromPath(potentialFilePath)
       if img.isEmpty()
-        img = fs.readFileSync(potentialFilePath) # read Buffer from file
+        try
+          img = fs.readFileSync(potentialFilePath) # read Buffer from file
+        catch error
+          return # omit it to avoid throw error in the console
         if not isGif(img)
           return           # normaly return, paste whatever you want
 
