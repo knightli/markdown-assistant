@@ -32,13 +32,14 @@ module.exports =
         @eventHandler e
 
   eventHandler: (e) ->
-    e.preventDefault()
     if (e.metaKey && e.keyCode == 86 || e.ctrlKey && e.keyCode == 86)
       clipboard = require('clipboard')
       img = clipboard.readImage()
       ext = 'png'
       if img.isEmpty()
         potentialFilePath = clipboard.readText()
+        if not fs.existsSync(potentialFilePath)
+          return
         ext = potentialFilePath.split('.').pop().toLowerCase()
         img = electron.nativeImage.createFromPath(potentialFilePath)
       if img.isEmpty()
@@ -48,6 +49,8 @@ module.exports =
           return # omit it to avoid throw error in the console
         if not isGif(img)
           return           # normaly return, paste whatever you want
+
+      e.preventDefault()
 
       # insert loading text
       uploaderName = atom.config.get('markdown-assistant.uploader')
