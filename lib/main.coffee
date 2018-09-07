@@ -54,7 +54,7 @@ module.exports =
         uploaderIns = uploader.instance()
 
         uploadFn = (callback)->
-          uploaderIns.upload(img.toPng(), 'png', callback)
+          uploaderIns.upload(img.toPNG(), 'png', callback)
 
         insertImageViewInstance = new insertImageViewModule()
         insertImageViewInstance.display(uploadFn)
